@@ -7,6 +7,7 @@ class Canvas {
 	int w, h;
 	public Canvas(int w, int h) {
 		h+=2;
+		w+=2;
 		this.w = w;
 		this.h = h;
 		canvasArray = new char[h][w];
@@ -52,6 +53,7 @@ public class CanvasApp {
 			command = scan.nextLine();
 			draw(command);
 		}
+		System.out.println("Program Exited!");
 		scan.close();
 	}
 	
@@ -70,7 +72,7 @@ public class CanvasApp {
 					System.err.println("Draw a canvas first");
 					return;
 				}
-				line(Integer.parseInt(cmd[1]),Integer.parseInt(cmd[2]),Integer.parseInt(cmd[3]),Integer.parseInt(cmd[4]));
+				line(Integer.parseInt(cmd[1]),Integer.parseInt(cmd[2]),Integer.parseInt(cmd[3]),Integer.parseInt(cmd[4]),'X');
 			break;
 		}		
 	}
@@ -84,13 +86,14 @@ public class CanvasApp {
 		}
 	}
 	
-	private static void line(int x1, int y1, int x2, int y2) {		
-		if(x2>=canvas.getW() || y2 >= canvas.getH()) {
-			
+	private static void line(int x1, int y1, int x2, int y2, char mchar) {
+		if(x1 < 1 || y1 < 1 || x2 >= canvas.getW()-1 || y2 >= canvas.getH()-1){
+			System.out.println("ERROR : Trying to draw at invalid co-ordinates. Please draw inside canvas or get a bigger canvas.");
+			return;
 		}
-		for(int i=x1; i<x2; i++) {
-			for(int j=y1; j<=y2; j++) {
-				canvas.getCanvasArray()[j][i] = 'X';
+		for(int i=y1; i<=y2; i++) {
+			for(int j=x1; j<=x2; j++) {
+				canvas.getCanvasArray()[i][j] = mchar;				
 			}
 		}
 		render(canvas);
@@ -98,5 +101,5 @@ public class CanvasApp {
 	   /* for (int i = 1 ; i < w-1 ; ++i)
 	    	System.out.print(mids);
 	    System.out.print(ends);*/
-	} 
+  	} 
 }
