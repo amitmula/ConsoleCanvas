@@ -10,19 +10,28 @@ class Canvas {
 		w+=2;
 		this.w = w;
 		this.h = h;
-		canvasArray = new char[h][w];
-		for(int i=0;i<this.h;i++) {			
-			for(int j=0;j<this.w;j++) {				
-				if(i==0 || i==this.h-1){
-					canvasArray[i][j] = '-';
-				}else{
-					if(j==0 || j==this.w-1) {
-						canvasArray[i][j] = '|';
-					}
-				}
+		canvasArray = new char[h][w];		
+		line(0, 0, this.w-1, 0, '-');
+		line(0, this.h-1, this.w-1, this.h-1, '-');
+		line(0, 1, 0, this.h-2, '|');
+		line(this.w-1, 1, this.w-1, this.h-2, '|');		
+	}
+	
+	public void line(int x1, int y1, int x2, int y2, char mchar) {		
+		for(int i=y1; i<=y2; i++) {
+			for(int j=x1; j<=x2; j++) {
+				canvasArray[i][j] = mchar;
 			}
 		}
+  	} 
+	
+	public void rectangle(int x1, int y1, int x2, int y2, char mchar) {
+		line(x1,y1, x2, y1, mchar);
+		line(x1,y1, x1, y2, mchar);
+		line(x2,y1, x2, y2, mchar);
+		line(x1,y2, x2, y2, mchar);
 	}
+	
 	public char[][] getCanvasArray() {
 		return canvasArray;
 	}
@@ -72,7 +81,17 @@ public class CanvasApp {
 					System.err.println("Draw a canvas first");
 					return;
 				}
-				line(Integer.parseInt(cmd[1]),Integer.parseInt(cmd[2]),Integer.parseInt(cmd[3]),Integer.parseInt(cmd[4]),'X');
+				canvas.line(Integer.parseInt(cmd[1]),Integer.parseInt(cmd[2]),Integer.parseInt(cmd[3]),Integer.parseInt(cmd[4]),'X');
+				render(canvas);
+			break;
+			case 'R' :
+				cmd = command.split(" ");
+				if(canvas == null){
+					System.err.println("Draw a canvas first");
+					return;
+				}
+				canvas.rectangle(Integer.parseInt(cmd[1]),Integer.parseInt(cmd[2]),Integer.parseInt(cmd[3]),Integer.parseInt(cmd[4]),'X');
+				render(canvas);
 			break;
 		}		
 	}
@@ -86,20 +105,5 @@ public class CanvasApp {
 		}
 	}
 	
-	private static void line(int x1, int y1, int x2, int y2, char mchar) {
-		if(x1 < 1 || y1 < 1 || x2 >= canvas.getW()-1 || y2 >= canvas.getH()-1){
-			System.out.println("ERROR : Trying to draw at invalid co-ordinates. Please draw inside canvas or get a bigger canvas.");
-			return;
-		}
-		for(int i=y1; i<=y2; i++) {
-			for(int j=x1; j<=x2; j++) {
-				canvas.getCanvasArray()[i][j] = mchar;				
-			}
-		}
-		render(canvas);
-		//System.out.print("X");
-	   /* for (int i = 1 ; i < w-1 ; ++i)
-	    	System.out.print(mids);
-	    System.out.print(ends);*/
-  	} 
+	
 }
