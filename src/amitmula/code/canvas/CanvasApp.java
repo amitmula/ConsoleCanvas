@@ -2,6 +2,32 @@ package amitmula.code.canvas;
 
 import java.util.Scanner;
 
+class SPoint {
+	public SPoint(int x, int y) {
+		super();
+		this.x = x;
+		this.y = y;
+	}
+
+	int x,y;
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+}
+
 class Canvas {
 	char[][] canvasArray;
 	int w, h;
@@ -26,12 +52,12 @@ class Canvas {
 		}
 	}
 	
-	public void drawLine(int x1, int y1, int x2, int y2, char mchar) {		
+	public void drawLine(int x1, int y1, int x2, int y2, char mchar) {
 		for(int i=y1; i<=y2; i++) {
 			for(int j=x1; j<=x2; j++) {
-				canvasArray[i][j] = mchar;
+				canvasArray[i][j] = mchar;				
 			}
-		}
+		}		 
   	} 
 	
 	public void drawRectangle(int x1, int y1, int x2, int y2, char mchar) {
@@ -43,17 +69,16 @@ class Canvas {
 	
 	public void bucketFill(int x, int y, char mchar) throws InterruptedException {
 		if((int)canvasArray[y][x] != 0) {
-			System.out.println("Not an empty co-ordinate. Choose another one.");
 			return;
 		}
 		
-		while((int)canvasArray[y][--x] == 0);x++;
-		while((int)canvasArray[--y][x] == 0);y++;
-		
-		for(int i=x; (int)canvasArray[y][i] == 0; i++) {
-			for(int j=y; (int)canvasArray[j][i] == 0; j++) {
-				canvasArray[j][i] = mchar;
-			}
+		if(x > 0 || x < this.h || y > 0 || y  < this.w) {
+			if((int)canvasArray[y][x] == 0)
+				canvasArray[y][x] = mchar;
+			bucketFill(x+1,y, mchar);
+			bucketFill(x-1,y, mchar);
+			bucketFill(x,y-1, mchar);
+			bucketFill(x,y+1, mchar);			
 		}
 	}
 }
@@ -106,7 +131,7 @@ public class CanvasApp {
 						System.err.println("Draw a canvas first");
 						return;
 					}
-					canvas.bucketFill(Integer.parseInt(cmd[1]),Integer.parseInt(cmd[2]),'o');
+					canvas.bucketFill(Integer.parseInt(cmd[1]),Integer.parseInt(cmd[2]),cmd[3].charAt(0));
 					canvas.render();
 				break;
 			}
