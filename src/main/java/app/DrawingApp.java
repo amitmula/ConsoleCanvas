@@ -15,7 +15,7 @@ class DrawingApp {
         Scanner scan = new Scanner(System.in);
         String command = new String();
         while(!command.equals("Q")) {
-            System.out.print("\nEnter command:");
+            System.out.println("\nEnter command:");
             command = scan.nextLine();
             app.draw(command);
         }
@@ -51,7 +51,7 @@ class DrawingApp {
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\nInvalid command. Try again!!\n");
-        } catch (CanvasException e) {
+        } catch (Exception e) {
             System.out.println("\nError Occurred : " + e.getMessage() + "\nPlease try again");
         }
     }
