@@ -23,13 +23,13 @@ class CanvasTest {
     @Test
     void testConstructorException() {
         Executable closureContainingCodeToTest = () -> new Canvas(0, 4);
-        assertThrows(CanvasException.class, closureContainingCodeToTest, "");
+        assertThrows(CanvasException.class, closureContainingCodeToTest);
     }
 
     @Test
     void testDrawLineException() {
         Executable closureContainingCodeToTest = () -> new Canvas().drawLine(1,2,3,4,'x');
-        assertThrows(CanvasException.class, closureContainingCodeToTest, "");
+        assertThrows(CanvasException.class, closureContainingCodeToTest);
     }
 
     @Test
